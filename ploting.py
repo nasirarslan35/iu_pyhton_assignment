@@ -5,12 +5,39 @@ import numpy as np
 from bokeh.layouts import column, row
 
 class Plot:
+        """
+        A class to create visualizations for SSD sums and test results using Bokeh.
+        
+        Attributes:
+            ssd_sums (dict): A dictionary containing the sums of squared differences (SSD) for each training function against ideal functions.
+            test_results (DataFrame): A pandas DataFrame containing test results with columns for 'X (test func)', 'Y (test func)', 'Delta Y (test func)', and 'No. of ideal func'.
+        
+        Methods:
+            ssd_plot(ssd_sums, title): Creates a bar plot for SSD values with the minimum SSD highlighted.
+            scatter_test_results(df_test_results): Generates a scatter plot for test results, showing ideal function number and Delta Y on hover.
+            dashboard(): Creates a comprehensive layout with SSD bar plots and a scatter plot of test results, then saves and displays it as an HTML file.
+            ssd_plot_only(): Displays only the SSD bar plots for each training function in a layout.
+            scatter_plot_only(): Displays only the scatter plot of test results in a layout.
+        """
     
         def __init__(self, ssd_sums, test_results):
+            """
+            Initializes the Plot class with SSD sums and test results data.
+            """
             self.ssd_sums = ssd_sums
             self.test_results = test_results
         
         def ssd_plot(self,ssd_sums, title):
+            """
+            Creates a bar plot of the SSD values for each ideal function, highlighting the function with the minimum SSD.
+
+            Parameters:
+                ssd_sums (dict): SSD sums for a specific training function.
+                title (str): The title for the plot.
+
+            Returns:
+                Bokeh figure: A bar plot visualizing the SSD values.
+            """
             # Calculate log10 of SSD values
             ssd_log = np.log10(list(ssd_sums.values()))
             
@@ -47,10 +74,15 @@ class Plot:
     
         def scatter_test_results(self, df_test_results):
 
-            # Assuming df_test_results is already defined and loaded with data
+            """
+            Creates a scatter plot of test results, showing the relationship between 'X (test func)' and 'Y (test func)' and displaying the ideal function number and Delta Y on hover.
 
-            # Ensure the notebook output is set correctly
-            #output_notebook()
+            Parameters:
+                df_test_results (DataFrame): A DataFrame containing test results.
+
+            Returns:
+                Bokeh figure: A scatter plot visualizing the test results.
+            """
 
             # Generate a random color for each data point
             np.random.seed(42)  # For reproducibility
@@ -89,6 +121,9 @@ class Plot:
             return p
     
         def dashboard(self):
+            """
+            Combines SSD bar plots for each training function and a scatter plot of test results into a single dashboard layout and saves/shows it as an HTML file.
+            """
             df_test_results = self.test_results
             ssd_sums= self.ssd_sums
             
@@ -126,6 +161,9 @@ class Plot:
             show(layout)
         
         def ssd_plot_only(self):
+            """
+            Creates and shows a layout consisting only of SSD bar plots for each training function.
+            """
             ssd_sums= self.ssd_sums
             
             ssd_sums_y1 = ssd_sums['Y1 (training func)']
@@ -156,6 +194,9 @@ class Plot:
             show(layout)
             
         def scatter_plot_only(self):
+            """
+            Creates and shows a layout consisting only of the scatter plot of test results.
+            """
             df_test_results = self.test_results
             
             

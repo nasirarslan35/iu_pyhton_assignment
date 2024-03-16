@@ -1,6 +1,36 @@
 from sqlalchemy import create_engine
 import pandas as pd
 class ReadCsv:
+    """
+    A class for reading CSV files and loading their contents into Microsoft SQL Server  tables. 
+
+    This class reads multiple CSV files, maps each file to a specified SQL table,
+    and inserts the data into these tables using SQLAlchemy. It handles dynamic
+    column mapping based on predefined table schemas and allows for database 
+    connectivity through a variety of ODBC drivers.
+
+    Attributes:
+        server (str): Server address of the SQL database.
+        database_name (str): Name of the database to connect to.
+        username (str): Username for database authentication.
+        password (str): Password for database authentication.
+        driver (str): ODBC driver used for the connection.
+        port (str): Port number for the database server.
+        dataset_path (str): Path to the directory containing CSV files.
+        file_names (list of str): Names of CSV files to be processed.
+        tabels (dict): Dictionary mapping table names to their schema (column names and data types).
+        file_to_table_map (dict): Dictionary mapping file names to corresponding SQL table names.
+        engine (SQLAlchemy engine, optional): SQLAlchemy engine instance for database connections.
+
+    Methods:
+        alchemy_connection():
+            Establishes a connection to the database using SQLAlchemy.
+
+        read_csv_to_sql():
+            Reads CSV files, maps their columns to SQL table columns as per `tabels` attribute,
+            and inserts the data into the corresponding tables. It dynamically adjusts to the number
+            of columns in each CSV file and the schema of the target SQL table.
+    """
     def __init__(self, server, database_name, username, password, driver, port, dataset_path,file_names, tabels,file_to_table_map):
         self.server = server
         self.database_name = database_name
